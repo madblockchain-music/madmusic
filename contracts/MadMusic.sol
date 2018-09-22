@@ -16,9 +16,9 @@ contract MadMusic {
         uint[] sendPercents;
     }
 
-    mapping(string => Song) public songs;
+    mapping(bytes32 => Song) public songs;
 
-    function donate(string songID) public payable {
+    function donate(bytes32 songID) public payable {
         if(songs[songID].sendToAddresses.length==0){ // If there are no addresses to recieve revenue from song
             songs[songID].unclaimedMoney += msg.value;
         }
@@ -29,7 +29,7 @@ contract MadMusic {
         }
     }
 
-    function setCreators(string songID, address[] sendToAddresses, uint[] sendPercents) public {
+    function setCreators(bytes32 songID, address[] sendToAddresses, uint[] sendPercents) public {
         require(msg.sender == madMusicAdmin, "Please contact admin at admin@madmusic.com to set payee addresses.");
         songs[songID].sendToAddresses = sendToAddresses;
         songs[songID].sendPercents = sendPercents;
