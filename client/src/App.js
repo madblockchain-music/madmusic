@@ -51,9 +51,36 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App">
-        <div>Percent going to MadMusic admins is: {this.state.storageValue}</div>
+
+    <div class = "container">
+        <div class="jumbotron text-center">
+          <h1 id="title">MadMusic</h1>
+        </div>
+          <div>Percent going to MadMusic admins is: {this.state.storageValue}</div>
+
+      <div class="col-md-12" id="article-list">
+          <div class="row">
+            <div class="col-lg-12">
+              <p id="account" class="welcome pull-right"></p>
+              <p id="accountBalance" class="welcome pull-left"></p>
+            </div>
+          </div>
+
+        <div class="row panel panel-default">
+          <div class="panel-heading clearfix" id="title-chunk">
+            <div class="panel-title">
+              <button id="btn-top-left" class="btn btn-lg pull-left" data-toggle="collapse" data-target="#events" aria-expanded="false" aria-controls="events">Events</button>
+              <button id="btn-top-right" class="btn btn-lg pull-right" data-toggle="modal" data-target="#sellArticle">Sell an article</button>
+            </div>
+          </div>
+          <ul id="events" class="collapse list-group"></ul>
+        </div>
+
+        <div id="articlesRow" class="row">
+          
+        </div>
       </div>
+    </div>
     );
   }
 }
