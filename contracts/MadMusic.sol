@@ -24,7 +24,11 @@ contract MadMusic {
     }
 
     function donate(bytes32 songID) public payable {
+        require(msg.value > 0, "Must donate non-zero amount");
         if(songs[songID].sendToAddresses.length==0){ // If there are no addresses to recieve revenue from song
+            if (songs[songID].unclaimedMoney==0){ 
+                songIDs.push(songID);
+            }
             songs[songID].unclaimedMoney += msg.value;
         }
         else{ // If there are creators, send money to them
@@ -36,6 +40,9 @@ contract MadMusic {
 
     function setCreators(bytes32 songID, address[] sendToAddresses, uint[] sendPercents) public {
         require(msg.sender == madMusicAdmin, "Please contact admin at admin@madmusic.com to set payee addresses.");
+        if(songs[songID].sendToAddresses.length==0 && songs[songID].unclaimedMoney==0){ 
+            songIDs.push(songID);
+        }
         songs[songID].sendToAddresses = sendToAddresses;
         songs[songID].sendPercents = sendPercents;
         // Pay out all unclaimed money
