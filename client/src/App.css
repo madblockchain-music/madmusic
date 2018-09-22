@@ -1,3 +1,15 @@
-.App {
+body {
+  padding-top: 40px;
+  padding-bottom: 120px;
+  background-color: #1B1B1B;
+  color: white;
+}
+
+.container {
+  background-color: #1B1B1B;
   text-align: center;
+}
+
+div.jumbotron.text-center {
+  background-color: #1B1B1B;
 }
