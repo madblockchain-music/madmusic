@@ -1,5 +1,6 @@
-var SimpleStorage = artifacts.require("./SimpleStorage.sol");
+var MadMusic = artifacts.require("./MadMusic.sol");
 
+var percentToAdmins = 3; 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
+  deployer.deploy(MadMusic, percentToAdmins);
 };
