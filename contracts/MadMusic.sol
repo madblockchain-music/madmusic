@@ -16,7 +16,12 @@ contract MadMusic {
         uint[] sendPercents;
     }
 
-    mapping(bytes32 => Song) public songs;
+    mapping(bytes32 => Song) songs;
+
+    bytes32[] public songIDs;
+    function getSong(bytes32 songID) public view returns (uint,address[],uint[]){
+        return (songs[songID].unclaimedMoney, songs[songID].sendToAddresses, songs[songID].sendPercents);
+    }
 
     function donate(bytes32 songID) public payable {
         if(songs[songID].sendToAddresses.length==0){ // If there are no addresses to recieve revenue from song

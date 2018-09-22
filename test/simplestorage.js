@@ -1,15 +1,18 @@
-const SimpleStorage = artifacts.require("./SimpleStorage.sol");
+const MadMusic = artifacts.require("./MadMusic.sol");
 
-contract("SimpleStorage", accounts => {
-  it("...should store the value 89.", async () => {
-    const simpleStorageInstance = await SimpleStorage.deployed();
+contract("MadMusic", accounts => {
+  it("...should record donation of 3 to song 24.", async () => {
+    const madMusicInstance = await MadMusic.deployed();
 
-    // Set value of 89
-    await simpleStorageInstance.set(89, { from: accounts[0] });
+    await madMusicInstance.donate(24, {value: 3});
+        
+    const ret = await madMusicInstance.getSong(24);
 
-    // Get stored value
-    const storedData = await simpleStorageInstance.get.call();
+    console.warn(ret)
 
-    assert.equal(storedData, 89, "The value 89 was not stored.");
+    const noice = ret[0];
+
+    assert.equal(noice, 3, "3 has been donated to song 24.");
+
   });
 });
