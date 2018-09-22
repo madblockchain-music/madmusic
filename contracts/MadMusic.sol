@@ -16,7 +16,7 @@ contract MadMusic {
         uint[] sendPercents;
     }
 
-    mapping(string => Song) songs;
+    mapping(string => Song) public songs;
 
     function donate(string songID) public payable {
         if(songs[songID].sendToAddresses.length==0){ // If there are no addresses to recieve revenue from song
