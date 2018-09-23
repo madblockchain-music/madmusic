@@ -11,13 +11,14 @@ contract TestMadMusic {
     function testItStoresAValue() public {
         MadMusic madMusic = MadMusic(DeployedAddresses.MadMusic());
 
-        madMusic.donate.value(2)(23);
+        madMusic.donate.value(2)("23");
         
         uint a;
         address[] memory b;
         uint[] memory c;
+        uint d;
 
-        (a,b,c) = madMusic.getSong(23);
+        (a,b,c,d) = madMusic.getSong("23");
         Assert.equal(a, 2, "It should store the value 2.");
     }
 }

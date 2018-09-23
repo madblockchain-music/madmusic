@@ -1,15 +1,152 @@
-body {
-  padding-top: 40px;
-  padding-bottom: 120px;
-  background-color: #1B1B1B;
-  color: white;
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Cedarville+Cursive);
+
+body{
+	background-color: #10000c;   
+  font-family: 'Open Sans', serif;
+  color: #dac6ac;
+  padding: 20px;
+  margin: 0 auto; /* Center in other browsers */
 }
 
-.container {
-  background-color: #1B1B1B;
+#content {
+  /* width: 800px; */
+  margin:auto;
+  text-align:center;
+}
+
+.search-class{
+  margin:auto;
+  text-align:center;
+}
+
+li{
+  margin:auto;
+  text-align:center;
+}
+
+ul{
+  list-style: none;
+  padding-left: 0;
+}
+
+img{
+  padding: 0px 10px;
+  vertical-align: middle;
+}
+
+.top{
+  font-size: 120px;
+  font-family: 'Cedarville Cursive', serif;
   text-align: center;
 }
 
-div.jumbotron.text-center {
-  background-color: #1B1B1B;
+input{
+  background-color: #10000c;  
+  color: #dac6ac;
+  font-size: 66px;
+  border: none;
+  outline-width: 0;
+  width: 100%;
+  text-align: center;
 }
+
+.input-modal{
+  text-align: left;
+}
+
+.button{
+  background-color: #dac6ac;  
+  color: #515b51;
+}
+
+.material-panel{
+    margin:auto;
+    text-align:left;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    width: 800px;
+    vertical-align: middle;
+}
+
+.material-panel .head{
+    padding: 10px 15px;
+    display: flex;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.material-panel .body{
+    padding: 15px;
+    display: flex;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.material-panel.info>.head{
+    color: #515b51;
+    background-color: #efa747;
+    font-size: 20px;
+}
+
+.material-panel.info>.body{
+    color: #515b51;
+    background-color: #dac6ac;
+}
+
+.middle-info{
+  color: #10000c;
+  background-color: #dac6ac;
+  padding: 50px;
+}
+
+.left{
+  width: 600px;
+  /* background-color: firebrick; */
+}
+.right{
+  width: 200px;
+  text-align:right;
+}
+
+.head-left{
+  width: 600px;
+}
+
+.head-right{
+  width: 200px;
+  text-align:right;
+}
+
+.top{
+  font-size: 120px;
+  font-family: 'Cedarville Cursive', serif;
+  text-align: center;
+}
+
+.Modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  outline-width: 0;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #10000c;
+  opacity:0.95 !important;
+}
+
+.song-button{
+  margin: auto;
+}
+
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */

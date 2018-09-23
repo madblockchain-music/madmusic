@@ -14,19 +14,28 @@ contract MadMusic {
         uint unclaimedMoney;
         address[] sendToAddresses;
         uint[] sendPercents;
+        uint totalDonated;
     }
 
-    mapping(bytes32 => Song) songs;
+    mapping(string => Song) songs;
+    string[] songIDs;
 
-    bytes32[] public songIDs;
-    function getSong(bytes32 songID) public view returns (uint,address[],uint[]){
-        return (songs[songID].unclaimedMoney, songs[songID].sendToAddresses, songs[songID].sendPercents);
+    function getNumberOfSongs() public view returns (uint){
+        return (songIDs.length);
     }
 
-    function donate(bytes32 songID) public payable {
+    function getSongID(uint songNumber) public view returns (string){
+        return songIDs[songNumber];
+    }
+
+    function getSong(string songID) public view returns (uint,address[],uint[],uint){
+        return (songs[songID].unclaimedMoney, songs[songID].sendToAddresses, songs[songID].sendPercents, songs[songID].totalDonated);
+    }
+
+    function donate(string songID) public payable {
         require(msg.value > 0, "Must donate non-zero amount");
         if(songs[songID].sendToAddresses.length==0){ // If there are no addresses to recieve revenue from song
-            if (songs[songID].unclaimedMoney==0){ 
+            if (songs[songID].unclaimedMoney==0){ // If song has not existed previously
                 songIDs.push(songID);
             }
             songs[songID].unclaimedMoney += msg.value;
@@ -36,20 +45,21 @@ contract MadMusic {
                 songs[songID].sendToAddresses[i].transfer(msg.value*songs[songID].sendPercents[i]/100-1);
             }
         }
+        songs[songID].totalDonated += msg.value;
     }
 
-    function setCreators(bytes32 songID, address[] sendToAddresses, uint[] sendPercents) public {
+    function setCreators(string songID, address[] sendToAddresses, uint[] sendPercents) public {
         require(msg.sender == madMusicAdmin, "Please contact admin at admin@madmusic.com to set payee addresses.");
-        if(songs[songID].sendToAddresses.length==0 && songs[songID].unclaimedMoney==0){ 
-            songIDs.push(songID);
+        require(songs[songID].unclaimedMoney>0, "Can only set creators to distribute money");
+        for (uint i = 0; i < sendToAddresses.length; i++) {
+            songs[songID].sendToAddresses.push(sendToAddresses[i]);
         }
-        songs[songID].sendToAddresses = sendToAddresses;
-        songs[songID].sendPercents = sendPercents;
+        for ( i = 0; i < sendToAddresses.length; i++) {
+            songs[songID].sendPercents.push(sendPercents[i]);
+        }
         // Pay out all unclaimed money
-        if (songs[songID].unclaimedMoney>0){
-            for (uint i = 0 ; i < songs[songID].sendToAddresses.length; i++ ) {
-                songs[songID].sendToAddresses[i].transfer(songs[songID].unclaimedMoney*songs[songID].sendPercents[i]/100-1);
-            }
+        for ( i = 0 ; i < songs[songID].sendToAddresses.length; i++ ) {
+            songs[songID].sendToAddresses[i].transfer(songs[songID].unclaimedMoney*songs[songID].sendPercents[i]/100-1);
         }
         songs[songID].unclaimedMoney = 0;
     }
