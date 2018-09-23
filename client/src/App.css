@@ -98,8 +98,12 @@ input{
   color: #10000c;
   background-color: #dac6ac;
   padding: 50px;
+  display: flex;
 }
 
+.middle-info-column{
+  padding: 10px;
+}
 .left{
   width: 600px;
   /* background-color: firebrick; */

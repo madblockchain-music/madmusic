@@ -14,6 +14,7 @@ contract MadMusic {
         uint unclaimedMoney;
         address[] sendToAddresses;
         uint[] sendPercents;
+        bytes32[] sendToEntities;
         uint totalDonated;
     }
 
@@ -28,8 +29,8 @@ contract MadMusic {
         return songIDs[songNumber];
     }
 
-    function getSong(string songID) public view returns (uint,address[],uint[],uint){
-        return (songs[songID].unclaimedMoney, songs[songID].sendToAddresses, songs[songID].sendPercents, songs[songID].totalDonated);
+    function getSong(string songID) public view returns (uint,address[],uint[],uint, bytes32[]){
+        return (songs[songID].unclaimedMoney, songs[songID].sendToAddresses, songs[songID].sendPercents, songs[songID].totalDonated, songs[songID].sendToEntities);
     }
 
     function donate(string songID) public payable {
@@ -48,7 +49,7 @@ contract MadMusic {
         songs[songID].totalDonated += msg.value;
     }
 
-    function setCreators(string songID, address[] sendToAddresses, uint[] sendPercents) public {
+    function setCreators(string songID, address[] sendToAddresses, uint[] sendPercents, bytes32[] sendToEntities) public {
         require(msg.sender == madMusicAdmin, "Please contact admin at admin@madmusic.com to set payee addresses.");
         require(songs[songID].unclaimedMoney>0, "Can only set creators to distribute money");
         for (uint i = 0; i < sendToAddresses.length; i++) {
@@ -56,6 +57,9 @@ contract MadMusic {
         }
         for ( i = 0; i < sendToAddresses.length; i++) {
             songs[songID].sendPercents.push(sendPercents[i]);
+        }
+        for ( i = 0; i < sendToAddresses.length; i++) {
+            songs[songID].sendToEntities.push(sendToEntities[i]);
         }
         // Pay out all unclaimed money
         for ( i = 0 ; i < songs[songID].sendToAddresses.length; i++ ) {

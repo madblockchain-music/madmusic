@@ -97,17 +97,18 @@ class App extends Component {
   handleSetCreatorsClick = async () => {
     console.warn("in handler");
     const { accounts, contract } = this.state;
-    if(!this.state.creators || !this.state.percents)
+    if(!this.state.creators || !this.state.percents|| !this.state.entities)
     {     
       this.closeModal();
       return;
     }
     const creatorArray = this.state.creators.split(",");
     const percentArray = this.state.percents.split(",");
+    const entitiesArray = this.state.entities.split(",").map((d)=>this.state.web3.utils.fromAscii(d));
     console.warn(this.state.selectedSong);
     console.warn(creatorArray);
     console.warn(percentArray);
-    await contract.setCreators(this.state.selectedSong, creatorArray, percentArray, {from: accounts[0], gas: 999999});
+    await contract.setCreators(this.state.selectedSong, creatorArray, percentArray, entitiesArray, {from: accounts[0], gas: 999999});
     this.closeModal();
     window.location.reload()
   }
@@ -151,7 +152,7 @@ class App extends Component {
     {
       var huh = await contract.getSong(songIDs[i])
       console.warn([huh[0].toNumber(), huh[3].toNumber()])
-      this.state.songs.push({key:songIDs[i], value:[huh[0].toNumber(), huh[1], huh[2],huh[3].toNumber()]})
+      this.state.songs.push({key:songIDs[i], value:[huh[0].toNumber(), huh[1], huh[2],huh[3].toNumber(), huh[4]]})
     }
 
     this.state.songsLeft = this.state.songs;
@@ -166,6 +167,10 @@ class App extends Component {
 
   handleChangePercents(event) {
     this.setState({percents: event.target.value})
+  }
+
+  handleChangeEntities(event) {
+    this.setState({entities: event.target.value})
   }
 
   handleChangeDonationAmount(event) {
@@ -205,10 +210,18 @@ class App extends Component {
           </div>
           {this.state.expandedIndex==index && 
           <div className="middle-info">
+          <div className="middle-info-column">
+          Creators:
+           {d.value[4].map((fjdkslf, index) => <div>{this.state.web3.utils.toAscii(fjdkslf)}</div>)}
+          </div>
+          <div className="middle-info-column">
           Addresses:
-           {d.value[1].map((db, index) => <div>{db}</div>)}
+           {d.value[1].map((db, index) => <div>{db}</div>)}      
+            </div>
+          <div className="middle-info-column">
           Percent split:
            {d.value[2].map((ff, index) => <div>{ff.toNumber()}</div>)}
+           </div>
           </div>
           } 
           <div class="body">
@@ -239,8 +252,9 @@ class App extends Component {
           className="Modal"
           overlayClassName="Overlay">
           <div className="panel-title3">
-                Specify the addresses to be paid for {this.state.selectedSong}:
-                Creators: <input type="text" class="input-modal" value={this.state.creators} onChange={this.handleChangeCreators.bind(this)}/>
+                Specify the entities to be paid for {this.state.selectedSong}:
+                <input type="text" class="input-modal" value={this.state.entities} onChange={this.handleChangeEntities.bind(this)}/>
+                Addresses: <input type="text" class="input-modal" value={this.state.creators} onChange={this.handleChangeCreators.bind(this)}/>
                 Percents: <input type="text" class="input-modal" value={this.state.percents} onChange={this.handleChangePercents.bind(this)}/>
                 </div>
                 <div className="bottom-buttons">
