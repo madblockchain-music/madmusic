@@ -71,6 +71,7 @@ input{
 
 .material-panel .head{
     padding: 10px 15px;
+    display: flex;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
@@ -93,12 +94,26 @@ input{
     background-color: #dac6ac;
 }
 
+.middle-info{
+  color: #10000c;
+  background-color: #dac6ac;
+  padding: 50px;
+}
 
 .left{
   width: 600px;
   /* background-color: firebrick; */
 }
 .right{
+  width: 200px;
+  text-align:right;
+}
+
+.head-left{
+  width: 600px;
+}
+
+.head-right{
   width: 200px;
   text-align:right;
 }

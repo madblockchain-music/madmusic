@@ -7,6 +7,8 @@ import Modal from 'react-modal';
 import "./App.css";
 import WarningLogo from'./baseline_warning_black_48dp.png';
 import OkLogo from'./baseline_check_circle_outline_black_48dp.png';
+import ExpandMore from'./baseline_expand_more_black_48dp.png';
+import ExpandLess from'./baseline_expand_less_black_48dp.png';
 
 class App extends Component {
   state = { 
@@ -19,7 +21,8 @@ class App extends Component {
       modalIsOpen: false,
       donateModalIsOpen: false,
       selectedSong: null,
-      donationAmount: ''
+      donationAmount: '',
+      expandedIndex:-1
     };
 
   openAdminModal(selectedSong) {
@@ -191,13 +194,30 @@ class App extends Component {
     const dynamicList = this.state.songsLeft
         .map((d, index) =>
         <div class="material-panel info">
-		      <div class="head">{d.key}</div>
-          <div  class="body">
+          <div class="head">
+            <div className="head-left">
+              {d.key}
+            </div>
+            <div className="head-right">
+              {this.state.expandedIndex !=index &&<img src={ExpandMore} width="20px" height="20px" onClick={() => this.setState({expandedIndex:index})}/>  }         
+              {this.state.expandedIndex ==index &&<img src={ExpandLess} width="20px" height="20px" onClick={() => this.setState({expandedIndex:-1})}/>  }          
+          </div>
+          </div>
+          {this.state.expandedIndex==index && 
+          <div className="middle-info">
+          Addresses:
+           {d.value[1].map((db, index) => <div>{db}</div>)}
+          Percent split:
+           {d.value[2].map((ff, index) => <div>{ff.toNumber()}</div>)}
+          </div>
+          } 
+          <div class="body">
             <div className="left">
-Tipped Total: {d.value[3]} ETH </div>
+              Tipped Total: {d.value[3]} ETH 
+            </div>
             <div className="right">
               {d.value[1].length==0 && <img src={WarningLogo} width="20px" height="20px" title="Song creators have not yet registered to recieve donations" />}
-              {d.value[1].length>0 && <img src={OkLogo} width="20px" height="20px" title={"Creator addresses:"+d.value[1]} />}
+              {d.value[1].length>0 && <img src={OkLogo} width="20px" height="20px" title="Donation reciever registered and verified!" />}
               {this.state.adminMode && d.value[1].length==0  && <button class="song-button" onClick={() => this.openAdminModal(d.key)}>Set Artist Payment Info</button>}
               {!this.state.adminMode && <button class="song-button" onClick={() => this.openDonateModal(d.key)}>Back It!</button>}
 			   </div>
@@ -219,7 +239,7 @@ Tipped Total: {d.value[3]} ETH </div>
           className="Modal"
           overlayClassName="Overlay">
           <div className="panel-title3">
-          Specify the addresses to be paid for {this.state.selectedSong}:
+                Specify the addresses to be paid for {this.state.selectedSong}:
                 Creators: <input type="text" class="input-modal" value={this.state.creators} onChange={this.handleChangeCreators.bind(this)}/>
                 Percents: <input type="text" class="input-modal" value={this.state.percents} onChange={this.handleChangePercents.bind(this)}/>
                 </div>
