@@ -5,11 +5,6 @@ body {
   color: white;
 }
 
-.container {
-  background-color: #1B1B1B;
-  text-align: center;
-}
-
-div.jumbotron.text-center {
-  background-color: #1B1B1B;
+.panel-title3 {
+  color: rgb(0, 0, 0);
 }
