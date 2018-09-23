@@ -10,8 +10,19 @@ body{
 }
 
 #content {
-  margin: 0 auto; /* Center in other browsers */
-  width: 800px;
+  /* width: 800px; */
+  margin:auto;
+  text-align:center;
+}
+
+.search-class{
+  margin:auto;
+  text-align:center;
+}
+
+li{
+  margin:auto;
+  text-align:center;
 }
 
 ul{
@@ -21,6 +32,7 @@ ul{
 
 img{
   padding: 0px 10px;
+  vertical-align: middle;
 }
 
 .top{
@@ -35,6 +47,12 @@ input{
   font-size: 66px;
   border: none;
   outline-width: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.input-modal{
+  text-align: left;
 }
 
 .button{
@@ -43,6 +61,8 @@ input{
 }
 
 .material-panel{
+    margin:auto;
+    text-align:left;
     margin-bottom: 20px;
     border: 1px solid transparent;
     width: 800px;
@@ -80,9 +100,7 @@ input{
 }
 .right{
   width: 200px;
-  display: flex;
-  justify-content: center;
-  /* background-color: aqua; */
+  text-align:right;
 }
 
 .top{
@@ -96,6 +114,7 @@ input{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) !important;
+  outline-width: 0;
 }
 
 .Overlay {
@@ -105,5 +124,14 @@ input{
   right: 0;
   bottom: 0;
   background-color: #10000c;
-  opacity:0.9 !important;
+  opacity:0.95 !important;
 }
+
+.song-button{
+  margin: auto;
+}
+
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */

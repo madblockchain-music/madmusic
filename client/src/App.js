@@ -179,7 +179,7 @@ class App extends Component {
   onChangeHandler(e){
     this.setState({
       songIDinTextBox: e.target.value,
-      songsLeft: this.state.songs.filter(d => e.target.value === '' || d.key.includes(e.target.value))
+      songsLeft: this.state.songs.filter(d => e.target.value === '' || d.key.toLowerCase().includes(e.target.value.toLowerCase()))
     })
   }
 
@@ -198,7 +198,7 @@ Tipped Total: {d.value[3]} ETH </div>
             <div className="right">
               {d.value[1].length==0 && <img src={WarningLogo} width="20px" height="20px" title="Song creators have not yet registered to recieve donations" />}
               {d.value[1].length>0 && <img src={OkLogo} width="20px" height="20px" title={"Creator addresses:"+d.value[1]} />}
-              {this.state.adminMode && <button class="song-button" onClick={() => this.openAdminModal(d.key)}>Update Artist Payment Info</button>}
+              {this.state.adminMode && d.value[1].length==0  && <button class="song-button" onClick={() => this.openAdminModal(d.key)}>Set Artist Payment Info</button>}
               {!this.state.adminMode && <button class="song-button" onClick={() => this.openDonateModal(d.key)}>Back It!</button>}
 			   </div>
       </div>
@@ -208,19 +208,20 @@ Tipped Total: {d.value[3]} ETH </div>
       <div className="top">
         MadMusic 
       </div>
-          <div className="search-class">
-          <input ref={(input) => { this.nameInput = input; }} placeholder="Search For Song..." value={this.state.songIDinTextBox} type="text" onChange={this.onChangeHandler.bind(this)}/>
-          {this.state.songsLeft.length==0 && <button onClick={() => this.handleNewDonateClick()} >Add Song!</button>}
-          </div>
-          <ul>{dynamicList}</ul>
+      <div className="search-class">
+            <input ref={(input) => { this.nameInput = input; }} value={this.state.songIDinTextBox} type="text" placeholder="Search for song..." onChange={this.onChangeHandler.bind(this)}/>
+            {this.state.songsLeft.length==0 && <button onClick={() => this.handleNewDonateClick()} >Add Song!</button>}
+            <ul>{dynamicList}</ul>
+            </div>
           {/*  Admin modal */}
           <Modal
           isOpen={this.state.modalIsOpen}
           className="Modal"
           overlayClassName="Overlay">
           <div className="panel-title3">
-                Creators: <input type="text" value={this.state.creators} onChange={this.handleChangeCreators.bind(this)}/>
-                Percents: <input type="text" value={this.state.percents} onChange={this.handleChangePercents.bind(this)}/>
+          Specify the addresses to be paid for {this.state.selectedSong}:
+                Creators: <input type="text" class="input-modal" value={this.state.creators} onChange={this.handleChangeCreators.bind(this)}/>
+                Percents: <input type="text" class="input-modal" value={this.state.percents} onChange={this.handleChangePercents.bind(this)}/>
                 </div>
                 <div className="bottom-buttons">
                 <button onClick={()=>this.closeModal()}>Cancel</button>
@@ -234,7 +235,7 @@ Tipped Total: {d.value[3]} ETH </div>
           className="Modal"
           overlayClassName="Overlay">
                <div className="panel-title3">
-                Tip the creators of {this.state.selectedSong}: <input type="text" value={this.state.donationAmount} onChange={this.handleChangeDonationAmount.bind(this)}/>
+                Tip the creators of {this.state.selectedSong}: <input type="text" class="input-modal" value={this.state.donationAmount} onChange={this.handleChangeDonationAmount.bind(this)}/>
                 ETH</div>
                 <div className="bottom-buttons">
                 <button onClick={()=>this.closeDonateModal()}>Cancel</button>
