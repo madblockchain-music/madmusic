@@ -1,10 +1,109 @@
-body {
-  padding-top: 40px;
-  padding-bottom: 120px;
-  background-color: #1B1B1B;
-  color: white;
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Cedarville+Cursive);
+
+body{
+	background-color: #10000c;   
+  font-family: 'Open Sans', serif;
+  color: #dac6ac;
+  padding: 20px;
+  margin: 0 auto; /* Center in other browsers */
 }
 
-.panel-title3 {
-  color: rgb(0, 0, 0);
+#content {
+  margin: 0 auto; /* Center in other browsers */
+  width: 800px;
+}
+
+ul{
+  list-style: none;
+  padding-left: 0;
+}
+
+img{
+  padding: 0px 10px;
+}
+
+.top{
+  font-size: 120px;
+  font-family: 'Cedarville Cursive', serif;
+  text-align: center;
+}
+
+input{
+  background-color: #10000c;  
+  color: #dac6ac;
+  font-size: 66px;
+  border: none;
+  outline-width: 0;
+}
+
+.button{
+  background-color: #dac6ac;  
+  color: #515b51;
+}
+
+.material-panel{
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    width: 800px;
+    vertical-align: middle;
+}
+
+.material-panel .head{
+    padding: 10px 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.material-panel .body{
+    padding: 15px;
+    display: flex;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.material-panel.info>.head{
+    color: #515b51;
+    background-color: #efa747;
+    font-size: 20px;
+}
+
+.material-panel.info>.body{
+    color: #515b51;
+    background-color: #dac6ac;
+}
+
+
+.left{
+  width: 600px;
+  /* background-color: firebrick; */
+}
+.right{
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  /* background-color: aqua; */
+}
+
+.top{
+  font-size: 120px;
+  font-family: 'Cedarville Cursive', serif;
+  text-align: center;
+}
+
+.Modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #10000c;
+  opacity:0.9 !important;
 }

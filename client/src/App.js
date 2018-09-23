@@ -5,21 +5,11 @@ import truffleContract from "truffle-contract";
 import Modal from 'react-modal';
 
 import "./App.css";
-
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
+import WarningLogo from'./baseline_warning_black_48dp.png';
+import OkLogo from'./baseline_check_circle_outline_black_48dp.png';
 
 class App extends Component {
   state = { 
-      storageValue: 0,
       web3: null,
       accounts: null, 
       contract: null, 
@@ -29,7 +19,7 @@ class App extends Component {
       modalIsOpen: false,
       donateModalIsOpen: false,
       selectedSong: null,
-      donationAmount: 0
+      donationAmount: ''
     };
 
   openAdminModal(selectedSong) {
@@ -82,7 +72,24 @@ class App extends Component {
       );
       console.log(error);
     }
+    document.addEventListener("keydown", this.escFunction, false);
+    this.nameInput.focus();
   };
+
+  componentWillUnmount(){
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
+
+  escFunction(event){
+    if(event.keyCode === 192) {
+      this.setState({ adminMode: !this.state.adminMode });
+        }
+  }
+
+  constructor(props){
+    super(props);
+    this.escFunction = this.escFunction.bind(this);
+  }
 
   handleSetCreatorsClick = async () => {
     console.warn("in handler");
@@ -183,30 +190,37 @@ class App extends Component {
 
     const dynamicList = this.state.songsLeft
         .map((d, index) =>
-        <div>
-         <li key={index}>{d.key} {this.getUnclaimedString(d.value[0])} {d.value[1][0]} Total Donated:{d.value[3]}</li>
-         {this.state.adminMode && <button onClick={() => this.openAdminModal(d.key)}>Set Creators</button>}
-         {!this.state.adminMode && <button onClick={() => this.openDonateModal(d.key)}>Donate!</button>}
-        </div>);
+        <div class="material-panel info">
+		      <div class="head">{d.key}</div>
+          <div  class="body">
+            <div className="left">
+Tipped Total: {d.value[3]} ETH </div>
+            <div className="right">
+              {d.value[1].length==0 && <img src={WarningLogo} width="20px" height="20px" title="Song creators have not yet registered to recieve donations" />}
+              {d.value[1].length>0 && <img src={OkLogo} width="20px" height="20px" title={"Creator addresses:"+d.value[1]} />}
+              {this.state.adminMode && <button class="song-button" onClick={() => this.openAdminModal(d.key)}>Update Artist Payment Info</button>}
+              {!this.state.adminMode && <button class="song-button" onClick={() => this.openDonateModal(d.key)}>Back It!</button>}
+			   </div>
+      </div>
+		</div>);
     return (
-    <div>
-        <h1 id="title">MadMusic</h1>
-        <div>Percent going to MadMusic admins is: {this.state.storageValue}</div>
-        <button onClick={() => this.setState({ adminMode: !this.state.adminMode })}>Toggle Admin Mode</button>
-          <div>
-          Song:  <input value={this.state.songIDinTextBox} type="text" onChange={this.onChangeHandler.bind(this)}/>
-          <button onClick={() => this.handleNewDonateClick()} disabled={this.state.songsLeft.length>0}>Add Song!</button>
-            <ul>{dynamicList}</ul>
+    <div id="content">
+      <div className="top">
+        MadMusic 
+      </div>
+          <div className="search-class">
+          <input ref={(input) => { this.nameInput = input; }} placeholder="Search For Song..." value={this.state.songIDinTextBox} type="text" onChange={this.onChangeHandler.bind(this)}/>
+          {this.state.songsLeft.length==0 && <button onClick={() => this.handleNewDonateClick()} >Add Song!</button>}
           </div>
-
+          <ul>{dynamicList}</ul>
           {/*  Admin modal */}
           <Modal
           isOpen={this.state.modalIsOpen}
-          style={customStyles}>
+          className="Modal"
+          overlayClassName="Overlay">
           <div className="panel-title3">
                 Creators: <input type="text" value={this.state.creators} onChange={this.handleChangeCreators.bind(this)}/>
                 Percents: <input type="text" value={this.state.percents} onChange={this.handleChangePercents.bind(this)}/>
-                <button onClick={()=>this.handleSetCreatorsClick()}>Set Creators</button>
                 </div>
                 <div className="bottom-buttons">
                 <button onClick={()=>this.closeModal()}>Cancel</button>
@@ -217,13 +231,14 @@ class App extends Component {
           {/*  Donate modal */}
           <Modal
           isOpen={this.state.donateModalIsOpen}
-          style={customStyles}>
-          <div className="panel-title3">
-                Donation Amount: <input type="text" value={this.state.donationAmount} onChange={this.handleChangeDonationAmount.bind(this)}/>
-                </div>
+          className="Modal"
+          overlayClassName="Overlay">
+               <div className="panel-title3">
+                Tip the creators of {this.state.selectedSong}: <input type="text" value={this.state.donationAmount} onChange={this.handleChangeDonationAmount.bind(this)}/>
+                ETH</div>
                 <div className="bottom-buttons">
                 <button onClick={()=>this.closeDonateModal()}>Cancel</button>
-                <button onClick={()=>this.handleDonateClick()}>Donate!</button>
+                <button onClick={()=>this.handleDonateClick()}>Confirm</button>
                 </div>
           </Modal>
         </div>
